@@ -279,7 +279,7 @@ export const ContactsAdmin: React.FC = () => {
                                         <tr>
                                             <th>Name</th>
                                             <th>Mobile</th>
-                                            <th>Address</th>
+                                            <th className="address-header">Address</th>
                                             <th>Loan_Amount</th>
                                             <th>Disb_Date</th>
                                             <th>Current_Amount</th>
@@ -301,7 +301,7 @@ export const ContactsAdmin: React.FC = () => {
                                                     {contact.imageUrl && <img src={contact.imageUrl} alt={contact.name} width="50" height="50" />}
                                                 </td> */}
                                                 <td>{contact.mobile}</td>
-                                                <td>{contact.address}</td>
+                                                <td className="address-column">{contact.address}</td>
                                                 <td>{contact.loan_Amount}</td>
                                                 <td>{moment(contact.disb_Date).format('DD-MMM-YYYY')}</td>
                                                 <td>
