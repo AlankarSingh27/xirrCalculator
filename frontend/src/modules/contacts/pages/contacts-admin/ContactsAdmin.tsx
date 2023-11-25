@@ -34,7 +34,9 @@ export const ContactsAdmin: React.FC = () => {
         dispatch(contactActions.getAllContactsAction());
         calculateCurrentAmounts();
     }, []);
-
+    useEffect(() => {
+        calculateCurrentAmounts();
+    }, []);
  
     const makeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
@@ -233,7 +235,8 @@ export const ContactsAdmin: React.FC = () => {
         sendEmailToContacts();
     }, [lastPaymentDates]);
 
-    const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(searchQuery.toLowerCase()));
+     const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(searchQuery.toLowerCase()));
+   
 
     return (
         <>
@@ -291,7 +294,7 @@ export const ContactsAdmin: React.FC = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredContacts.map((contact, index) => (
+                                        {filteredContacts.map((contact:any, index:number) => (
                                             <tr key={contact._id}>
                                                 <td>{contact.name}</td>
                                                 {/* <td>
