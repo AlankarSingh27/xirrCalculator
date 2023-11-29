@@ -39,6 +39,9 @@ const NavBar: React.FC<IProps> = (props) => {
                             <li className="nav-item">
                                 <Link to="/contacts/admin" className="nav-link">Admin</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link to="/lenders/admin" className="nav-link">PPMT</Link>
+                            </li>
                         </ul>
                         <div className="d-flex">
                             <ul className="navbar-nav">

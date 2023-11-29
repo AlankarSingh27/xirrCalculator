@@ -2,6 +2,7 @@ import express, {Application, Request, Response} from 'express';
 import dotenv from 'dotenv';
 import {DBUtil} from "./util/DBUtil";
 import contactRouter from "./router/contactRouter";
+import lenderRouter from "./router/lenderRouter";
 import userRouter from "./router/userRouter";
 import cors from "cors";
 
@@ -31,6 +32,7 @@ app.get("/", (request: Request, response: Response) => {
 
 // configure the routers
 app.use("/contacts", contactRouter);
+app.use("/lenders",lenderRouter);
 
 app.use("/users", userRouter);
 
