@@ -83,7 +83,7 @@ export const ViewLender: React.FC = () => {
                                         Moratorioum: <span className="fw-bold">{lender.moratorioum}</span>
                                     </li>
                                     <li className="list-group-item">
-                                        Margin Intrest: <span className="fw-bold">{lender.marginIntrest}%</span>
+                                        Margin Interest: <span className="fw-bold">{lender.marginIntrest}%</span>
                                     </li>
                                     <li className="list-group-item">
                                         Margin Amount: <span className="fw-bold">{lender.marginAmount}%</span>
@@ -96,7 +96,7 @@ export const ViewLender: React.FC = () => {
                             <div className="row mt-3">
                                 <div className="column">
                                    
-                                         <PMMT startDate={new Intl.DateTimeFormat('en-GB', {
+                                         <PMMT name={lender.name} address={lender.address} startDate={new Intl.DateTimeFormat('en-GB', {
                                                 day: '2-digit',
                                                 month: 'short',
                                                 year: '2-digit',
@@ -108,7 +108,7 @@ export const ViewLender: React.FC = () => {
                         </div>
                         <div className="row mt-3">
                             <div className="col">
-                                <Link className="btn btn-warning" to="/contacts/admin">
+                                <Link className="btn btn-warning" to="/lenders/admin">
                                     <i className="bi bi-arrow-left-circle-fill"></i> Back</Link>
                             </div>
                        

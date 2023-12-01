@@ -6,6 +6,8 @@ import { ppmt,ipmt } from 'financial'
 var xirr = require("xirr");
 
 export interface IProps {
+  name:string;
+  address:string;
   startDate: string | number;
   limit: string | number;
   principal: string | number;
@@ -18,6 +20,8 @@ export interface IProps {
 }
 
 export const PMMT: React.FC<IProps> = ({
+  name,
+  address,
   startDate,
   limit,
   principal,
@@ -28,6 +32,8 @@ export const PMMT: React.FC<IProps> = ({
   marginAmount,
   others,
 }) => {
+  let newName:string=name;
+  let newAddress:string=address;
   let newcurrentDate = moment(startDate, "DD-MMM-YY");
   let currentDate = moment(startDate, "DD-MMM-YY");
   let lastDate: any = [];
@@ -112,6 +118,8 @@ export const PMMT: React.FC<IProps> = ({
   
   const exportToExcel = () => {
     const wsData = [
+      ["Name:", newName, ""],
+      ["Address:",newAddress, ""],
       [
         "S.No",
         "Date",
@@ -128,6 +136,7 @@ export const PMMT: React.FC<IProps> = ({
         "Bal.Marg.",
         "EMI",
       ],
+     
     ];
     wsData.push([
       "",
@@ -166,13 +175,13 @@ export const PMMT: React.FC<IProps> = ({
         "", // Margin
         "", // Int.on Marg.
         "", // Arranger
-        (entry.principalPayment + Math.round(entry.interest)).toFixed(2),
+        (entry.principalPayment + (entry.interest)).toFixed(2),
         entry.totalAmount.toFixed(2),
         "", // Bal. Price
         (entry.principalPayment + entry.interest).toFixed(2),
       ]);
     });
-
+    wsData.push(["XIRR:", xirrResult !== null ? xirrResult.toFixed(2) + "%" : "N/A", ""]);
     const ws = XLSX.utils.aoa_to_sheet(wsData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "XLIRR1 Data");

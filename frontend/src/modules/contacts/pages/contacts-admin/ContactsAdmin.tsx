@@ -195,20 +195,21 @@ export const ContactsAdmin: React.FC = () => {
             // If the date doesn't exist in local storage, or it's the first time, send emails
             contacts.forEach((contact, index) => {
                 const lastPaymentDate = lastPaymentDates[index];
-    
                 if (lastPaymentDate) {
                     const daysUntilDue = lastPaymentDate.diff(today, 'days');
+                    console.log(daysUntilDue);
                     if (daysUntilDue <= 10 && daysUntilDue >= 0) {
                         // Initialize EmailJS with your service ID and template ID
                         init('FttnBSEmypWs8Muis'); 
                             // Your email service ID and template ID from EmailJS
                             const serviceId = 'service_hj0bgpq';
-                            const templateId = 'template_ha3lc4h';
+                            const templateId = 'template_8sk6m3f';
     
                         // Data for the email template
                         const templateParams = {
-                            to_email: 'alankar2709@gmail.com', // Change to the recipient's email
-                            message: `Hello, your payment is due on ${lastPaymentDates[index]}. 
+                            from_name: 'alankar2709@gmail.com', // Change to the recipient's email
+                            to_name:'Alankar',
+                            message: `Hello,${contact.name} your payment is due on ${lastPaymentDates[index]}. 
                                 Please make the payment as soon as possible to avoid any late fees.`,
                         };
     
@@ -274,9 +275,9 @@ export const ContactsAdmin: React.FC = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col">
-                                <table className="table table-striped table-hover text-center">
-                                    <thead>
-                                        <tr>
+                                <table className="table table-striped table-hover text-center table-sm">
+                                    <thead >
+                                        <tr className="table-info">
                                             <th>Name</th>
                                             <th>Mobile</th>
                                             <th className="address-header">Address</th>
@@ -297,9 +298,6 @@ export const ContactsAdmin: React.FC = () => {
                                         {filteredContacts.map((contact:any, index:number) => (
                                             <tr key={contact._id}>
                                                 <td>{contact.name}</td>
-                                                {/* <td>
-                                                    {contact.imageUrl && <img src={contact.imageUrl} alt={contact.name} width="50" height="50" />}
-                                                </td> */}
                                                 <td>{contact.mobile}</td>
                                                 <td className="address-column">{contact.address}</td>
                                                 <td>{contact.loan_Amount}</td>
@@ -317,13 +315,16 @@ export const ContactsAdmin: React.FC = () => {
                                                 <td>{contact.moratorioum}</td>
                                                 <td>{xirrResults[index] !== null ? (xirrResults[index]! * 100).toFixed(2) : 'N/A'}%</td>
                                                 <td>
-                                                    <Link className="btn btn-warning" to={`/contacts/view/${contact._id}`}>
-                                                        <i className="bi bi-eye-fill"></i>
-                                                    </Link>
-                                                    <Link className="btn btn-primary m-1" to={`/contacts/edit/${contact._id}`}>
-                                                        <i className="bi bi-pencil-square"></i>
-                                                    </Link>
+                                                  <div className="d-flex justify-content-between">
+                                                 <Link className="btn btn-warning" to={`/contacts/view/${contact._id}`}>
+                                                 <i className="bi bi-eye-fill "></i>
+                                                 </Link>
+                                                 <Link className="btn btn-primary m-1" to={`/contacts/edit/${contact._id}`}>
+                                                 <i className="bi bi-pencil-square"></i>
+                                                 </Link>
+                                                 </div>
                                                 </td>
+                                                
                                             </tr>
                                         ))}
                                     </tbody>

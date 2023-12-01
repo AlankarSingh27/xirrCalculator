@@ -23,6 +23,7 @@ export const LendersAdmin: React.FC = () => {
     const [totalDisbAmount, setTotalDisbAmount] = useState<number>(0);
     const [totalCurrentAmount, setTotalCurrentAmount] = useState<number>(0);
     const [nameCounts, setNameCounts] = useState<{ [name: string]: number }>({});
+    const [principalPayment, setPrincipalPayment] = useState<(number|null)[]>([]);
 
 
     const lenderState: lenderReducer.InitialState = useSelector((store: RootState) => {
@@ -30,7 +31,6 @@ export const LendersAdmin: React.FC = () => {
     });
 
     const { loading, lenders, error } = lenderState;
-    console.log(lenders);
     useEffect(() => {
         dispatch(lenderActions.getAllLendersAction());
     }, []);
@@ -47,8 +47,8 @@ export const LendersAdmin: React.FC = () => {
             dispatch(lenderActions.deleteLenderAction({ contactId: contactId }));
         }
     };
-  const lastDates: (moment.Moment | null)[] = [];
-    const calculateXIRR = (contact: IContactView): number | null => {
+                const lastDates: (moment.Moment | null)[] = [];
+                const calculateXIRR = (contact: IContactView): number | null => {
                 const cashflows: { amount: number; when: Date }[] = [];
                 const dates: { amount: number; when: Date }[] = [];
                 
@@ -62,6 +62,7 @@ export const LendersAdmin: React.FC = () => {
                     let newmarginAmount :number= Number(contact.marginAmount) ;
                     let newArranger:number = Number(contact.arranger);
                     let others:number = Number(contact.others);
+                    let principalPayments: number[] = [];
                     let margin:number=Number(-(ppl-(((newmarginAmount/100)*ppl)+((newprocessFee/100)*ppl)+((newArranger*ppl)/100))-others));
                     cashflows.push({ amount: margin, when: new Date(currentDate.toDate() ) });
             
@@ -69,12 +70,12 @@ export const LendersAdmin: React.FC = () => {
                     let totalDaysInMonth = 0;
             
                     for (let i = 0; i < totalTenor; i++) {
-                        currentDate.add(1, 'months');
-                        const daysInMonth = moment(currentDate, 'MMM').daysInMonth();
-                        totalDaysInMonth += daysInMonth;
-                        const period: number = i + 1;
-    const principalPayment = -ppmt(interestRate / 100 / 12, period, totalTenor, ppl);
-    let monthlyInterest =-ipmt(interestRate / 100 / 12, period, totalTenor, ppl);
+                         currentDate.add(1, 'months');
+                         const daysInMonth = moment(currentDate, 'MMM').daysInMonth();
+                         totalDaysInMonth += daysInMonth;
+                         const period: number = i + 1;
+                         const principalPayment = -ppmt(interestRate / 100 / 12, period, totalTenor, ppl);
+                         let monthlyInterest =-ipmt(interestRate / 100 / 12, period, totalTenor, ppl);
     
                         
                         const cashflow :number= Number((principalPayment) + (monthlyInterest));
@@ -132,13 +133,16 @@ export const LendersAdmin: React.FC = () => {
             const startDate = moment(contact.disb_Date, 'YYYY-MM-DD');
             const today = moment();
             let currentValue = Number(contact.loan_Amount);
-            let ppl = Number(contact.loan_Amount);
-            const totalTenor = Number(contact.total_Tenor);
-            const loanAmount = Number(ppl / totalTenor);
+            let interest = Number(contact.intrest_Rate);
+            let totalTenor=Number(contact.total_Tenor);
+            let ppl=Number(contact.loan_Amount);
             const currentTime = today.diff(startDate, 'month');
-    
+            console.log(currentTime);
             for (let i = 0; i < currentTime; i++) {
-                currentValue -= loanAmount;
+                    const period: number = i + 1;
+                    const principalPayment = -ppmt(interest / 100 / 12, period, totalTenor, ppl);
+                    console.log(principalPayment);
+                    currentValue -= principalPayment;
             }
     
             return currentValue;
@@ -150,13 +154,9 @@ export const LendersAdmin: React.FC = () => {
     
     useEffect(() => {
         calculateXIRRs();
-        const storedCurrAmount = localStorage.getItem('currentAmount');
-        if (storedCurrAmount) {
-            setCurrAmount(JSON.parse(storedCurrAmount));
-        } else {
             // If no data is found in local storage, calculate it and store it
             calculateCurrentAmounts();
-        }
+        
         calculateLastPaymentDates();
         calculateTotalAmounts();
         const nameCounts = calculateNameCounts();
@@ -239,13 +239,13 @@ export const LendersAdmin: React.FC = () => {
     }, [lastPaymentDates]);
 
      const filteredContacts = lenders.filter(lender => lender.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    
    
-
     return (
         <>
             {loading && <Spinner />}
             <NavBar color={'bg-dark'} />
-            <Heading heading={'Borrowers Contacts'} color={'text-dark'} />
+            <Heading heading={'Borrowers Contacts'} color={'text-info'} />
             {!loading && Object.keys(error).length > 0 && <ErrorMessage message={JSON.stringify(error)} />}
             <div className="container">
                 <div className="row">
@@ -277,9 +277,9 @@ export const LendersAdmin: React.FC = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col">
-                                <table className="table table-striped table-hover text-center">
+                                <table className="table table-striped table-hover text-center table-sm">
                                     <thead>
-                                        <tr>
+                                        <tr className="table-info">
                                             <th>Name</th>
                                             <th>Mobile</th>
                                             <th className="address-header">Address</th>
@@ -300,9 +300,6 @@ export const LendersAdmin: React.FC = () => {
                                         {filteredContacts.map((contact:any, index:number) => (
                                             <tr key={contact._id}>
                                                 <td>{contact.name}</td>
-                                                {/* <td>
-                                                    {contact.imageUrl && <img src={contact.imageUrl} alt={contact.name} width="50" height="50" />}
-                                                </td> */}
                                                 <td>{contact.mobile}</td>
                                                 <td className="address-column">{contact.address}</td>
                                                 <td>{contact.loan_Amount}</td>
@@ -323,9 +320,9 @@ export const LendersAdmin: React.FC = () => {
                                                     <Link className="btn btn-warning" to={`/lenders/view/${contact._id}`}>
                                                         <i className="bi bi-eye-fill"></i>
                                                     </Link>
-                                                    {/* <Link className="btn btn-primary m-1" to={`/contacts/edit/${contact._id}`}>
+                                                    <Link className="btn btn-primary m-1" to={`/lenders/edit/${contact._id}`}>
                                                         <i className="bi bi-pencil-square"></i>
-                                                    </Link> */}
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         ))}

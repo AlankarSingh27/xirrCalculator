@@ -97,7 +97,7 @@ export const ViewContact: React.FC = () => {
                             <div className="row mt-3">
                                 <div className="column">
                                    
-                                         <XLIRRdate startDate={new Intl.DateTimeFormat('en-GB', {
+                                         <XLIRRdate name={contact.name} address={contact.address} startDate={new Intl.DateTimeFormat('en-GB', {
                                                 day: '2-digit',
                                                 month: 'short',
                                                 year: '2-digit',

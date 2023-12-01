@@ -5,8 +5,8 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {IContactView} from "../../models/IContactView";
 import Spinner from "../../../layout/components/spinner/Spinner";
 import ErrorMessage from "../../../layout/components/error-message/ErrorMessage";
-import * as contactActions from "../../../../redux/contacts/contacts.actions";
-import * as contactReducer from "../../../../redux/contacts/contacts.slice";
+import * as lenderActions from "../../../../redux/lenders/lenders.actions";
+import * as lenderReducer from "../../../../redux/lenders/lenders.slice";
 import {useSelector} from "react-redux";
 import {AppDispatch, RootState, useAppDispatch} from "../../../../redux/store";
 
@@ -18,11 +18,11 @@ export const EditContact: React.FC = () => {
     /**
      * get the data from redux
      */
-    const contactState: contactReducer.InitialState = useSelector((store: RootState) => {
-        return store[contactReducer.contactFeatureKey];
-    })
+    const lenderState: lenderReducer.InitialState = useSelector((store: RootState) => {
+        return store[lenderReducer.lenderFeatureKey];
+    });
 
-    const {loading, contact: contactRedux,  error} = contactState;
+    const {loading, lender: contactRedux,  error} = lenderState;
     const [contact, setContact] = useState<IContactView>({
         name: "",
         mobile: "",
@@ -46,7 +46,7 @@ export const EditContact: React.FC = () => {
      */
     useEffect(() => {
         if (contactId) {
-            dispatch(contactActions.getContactAction({contactId: contactId}));
+            dispatch(lenderActions.getLenderAction({contactId: contactId}));
         }
     }, [contactId]);
 
@@ -94,12 +94,12 @@ export const EditContact: React.FC = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (contactId) {
-            dispatch(contactActions.updateContactAction({
+            dispatch(lenderActions.updateLenderAction({
                 contact: contact,
                 contactId: contactId
             })).then((response: any) => {
                 if (!response.error) {
-                    navigate("/contacts/admin");
+                    navigate("/lenders/admin");
                 }
             });
         }
@@ -170,7 +170,7 @@ export const EditContact: React.FC = () => {
                                         name={'intrest_Rate'}
                                         value={contact.intrest_Rate}
                                         onChange={e => updateInput(e)}
-                                        className="form-control" placeholder="Interest Rate" type="number"/>
+                                        className="form-control" placeholder="Intrest Rate" type="number"/>
                                 </div>
                                 <div className="mb-2">
                                     <input
@@ -194,7 +194,7 @@ export const EditContact: React.FC = () => {
                                         name={'total_Tenor'}
                                         value={contact.total_Tenor}
                                         onChange={e => updateInput(e)}
-                                        className="form-control" placeholder="Total tenor" type="number"/>
+                                        className="form-control" placeholder="Arranger" type="number"/>
                                 </div>
                                 <div className="mb-2">
                                     <input
@@ -223,7 +223,7 @@ export const EditContact: React.FC = () => {
                                 <div className="mb-2">
                                     <input
                                         required={true}
-                                        name={'marginAmount'}
+                                        name={'others'}
                                         value={contact.others}
                                         onChange={e => updateInput(e)}
                                         className="form-control" placeholder="Others in Rupees" type="number"/>

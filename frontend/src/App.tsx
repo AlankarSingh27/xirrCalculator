@@ -8,6 +8,7 @@ import LendersAdmin from "./modules/contacts/pages/lenders-admin/LendersAdmin";
 import AddContact from "./modules/contacts/pages/add-contact/AddContact";
 import AddLender from "./modules/contacts/pages/add-lender/AddLender";
 import EditContact from "./modules/contacts/pages/edit-contact/EditContact";
+import EditLender from "./modules/contacts/pages/edit-lender/EditLender";
 import ViewContact from "./modules/contacts/pages/view-contact/ViewContact";
 import ViewLender from "./modules/contacts/pages/view-lender/ViewLender";
 import {ToastContainer} from "react-toastify";
@@ -49,6 +50,7 @@ const App: React.FC = () => {
                     <Route path={'/lenders/admin'} element={<LendersAdmin/>}/>
                     <Route path={'/lenders/add'} element={<AddLender/>}/>
                     <Route path={'/contacts/edit/:contactId'} element={<EditContact/>}/>
+                    <Route path={'/lenders/edit/:contactId'} element={<EditLender/>}/>
                     <Route path={'/lenders/view/:contactId'} element={<ViewLender/>}/>
                     <Route path={'/contacts/view/:contactId'} element={<ViewContact/>}/>
                     <Route path={'/users/login'} element={<LoginUser/>}/>

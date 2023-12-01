@@ -5,6 +5,8 @@ import emailjs, { init } from "emailjs-com";
 var xirr = require("xirr");
 
 export interface IProps {
+  name:string;
+  address:string;
   startDate: string | number;
   limit: string | number;
   principal: string | number;
@@ -17,6 +19,8 @@ export interface IProps {
 }
 
 export const XLIRRdate: React.FC<IProps> = ({
+  name,
+  address,
   startDate,
   limit,
   principal,
@@ -27,6 +31,8 @@ export const XLIRRdate: React.FC<IProps> = ({
   marginAmount,
   others,
 }) => {
+  let newName:string=name;
+  let addressName:string=address;
   let newcurrentDate = moment(startDate, "DD-MMM-YY");
   let currentDate = moment(startDate, "DD-MMM-YY");
   let lastDate: any = [];
@@ -102,7 +108,13 @@ export const XLIRRdate: React.FC<IProps> = ({
   const newRate: number | null = xirr(cashflows, dates);
   const xirrResult: number | null = newRate !== null ? newRate * 100 : null;
   const exportToExcel = () => {
+   
+  
+  
+
     const wsData = [
+      ["Name:", newName, ""],
+      ["Address:", addressName, ""],
       [
         "S.No",
         "Date",
@@ -120,6 +132,7 @@ export const XLIRRdate: React.FC<IProps> = ({
         "EMI",
       ],
     ];
+    
     wsData.push([
       "",
       newcurrentDate.format("DD-MMM-YYYY"),
