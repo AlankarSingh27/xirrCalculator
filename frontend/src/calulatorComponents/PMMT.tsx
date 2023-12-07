@@ -198,7 +198,7 @@ export const PMMT: React.FC<IProps> = ({
           Export to Excel
         </button>
       </div>
-      <table className="table table-striped table-hover text-center">
+      <table className="table table-striped table-hover text-center table-sm">
         <thead>
           <tr>
             <th>S.No</th>

@@ -34,9 +34,6 @@ export const ContactsAdmin: React.FC = () => {
         dispatch(contactActions.getAllContactsAction());
         calculateCurrentAmounts();
     }, []);
-    useEffect(() => {
-        calculateCurrentAmounts();
-    }, []);
  
     const makeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
@@ -119,6 +116,7 @@ export const ContactsAdmin: React.FC = () => {
             }
 
             lastPaymentDates.push(lastPaymentDate);
+           
         });
 
         setLastPaymentDates(lastPaymentDates);
@@ -147,13 +145,14 @@ export const ContactsAdmin: React.FC = () => {
     
     useEffect(() => {
         calculateXIRRs();
-        const storedCurrAmount = localStorage.getItem('currentAmount');
-        if (storedCurrAmount) {
-            setCurrAmount(JSON.parse(storedCurrAmount));
-        } else {
-            // If no data is found in local storage, calculate it and store it
-            calculateCurrentAmounts();
-        }
+        // const storedCurrAmount = localStorage.getItem('currentAmount');
+        // if (storedCurrAmount) {
+        //     setCurrAmount(JSON.parse(storedCurrAmount));
+        // } else {
+        //     // If no data is found in local storage, calculate it and store it
+        //     calculateCurrentAmounts();
+        // }
+        calculateCurrentAmounts();
         calculateLastPaymentDates();
         calculateTotalAmounts();
         const nameCounts = calculateNameCounts();
@@ -200,17 +199,19 @@ export const ContactsAdmin: React.FC = () => {
                     console.log(daysUntilDue);
                     if (daysUntilDue <= 10 && daysUntilDue >= 0) {
                         // Initialize EmailJS with your service ID and template ID
-                        init('FttnBSEmypWs8Muis'); 
+                        init('Ng42nYtcluwY7TBvr'); 
                             // Your email service ID and template ID from EmailJS
-                            const serviceId = 'service_hj0bgpq';
-                            const templateId = 'template_8sk6m3f';
+                            const serviceId = 'service_emvfb3c';
+                            const templateId = 'template_pscbib7';
     
                         // Data for the email template
                         const templateParams = {
                             from_name: 'alankar2709@gmail.com', // Change to the recipient's email
-                            to_name:'Alankar',
+                            to_name:'sudhir Rana',
                             message: `Hello,${contact.name} your payment is due on ${lastPaymentDates[index]}. 
-                                Please make the payment as soon as possible to avoid any late fees.`,
+                                Please make the payment as soon as possible to avoid any late fees. Further,
+                                 share a request for NOC Certificate, release of cash collateral, return of Undated Security Cheques,
+                                  removal of lien on FD, if`,
                         };
     
                         // Send the email

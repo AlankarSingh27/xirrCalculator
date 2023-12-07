@@ -176,7 +176,7 @@ export const XLIRRdate: React.FC<IProps> = ({
         (ppl / totalTenor + Math.round(entry.interest)).toFixed(2),
       ]);
     });
-
+    wsData.push(["XIRR:", xirrResult !== null ? xirrResult.toFixed(2) + "%" : "N/A", ""]);
     const ws = XLSX.utils.aoa_to_sheet(wsData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "XLIRR Data");
@@ -194,7 +194,7 @@ export const XLIRRdate: React.FC<IProps> = ({
         </button>
       </div>
       <table className="table table-striped table-hover text-center">
-        <thead>
+        <thead className="table-info">
           <tr>
             <th>S.No</th>
             <th>Date</th>

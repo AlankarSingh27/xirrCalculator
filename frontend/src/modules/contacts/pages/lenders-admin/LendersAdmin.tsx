@@ -33,10 +33,8 @@ export const LendersAdmin: React.FC = () => {
     const { loading, lenders, error } = lenderState;
     useEffect(() => {
         dispatch(lenderActions.getAllLendersAction());
+        calculateCurrentAmounts();
     }, []);
-    // useEffect(() => {
-    //     calculateCurrentAmounts();
-    // }, []);
  
     const makeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
@@ -123,6 +121,7 @@ export const LendersAdmin: React.FC = () => {
             }
 
             lastPaymentDates.push(lastPaymentDate);
+            console.log(lastPaymentDate);
         });
 
         setLastPaymentDates(lastPaymentDates);
@@ -203,16 +202,19 @@ export const LendersAdmin: React.FC = () => {
                     const daysUntilDue = lastPaymentDate.diff(today, 'days');
                     if (daysUntilDue <= 10 && daysUntilDue >= 0) {
                         // Initialize EmailJS with your service ID and template ID
-                        init('FttnBSEmypWs8Muis'); 
+                        init('Ng42nYtcluwY7TBvr'); 
                             // Your email service ID and template ID from EmailJS
                             const serviceId = 'service_hj0bgpq';
-                            const templateId = 'template_ha3lc4h';
+                            const templateId = 'template_8sk6m3f';
     
                         // Data for the email template
                         const templateParams = {
-                            to_email: 'alankar2709@gmail.com', // Change to the recipient's email
-                            message: `Hello, your payment is due on ${lastPaymentDates[index]}. 
-                                Please make the payment as soon as possible to avoid any late fees.`,
+                            from_name: 'alankar2709@gmail.com', // Change to the recipient's email
+                            to_name:'sudhir Rana',
+                            message: `Hello,${contact.name} your payment is due on ${lastPaymentDates[index]}. 
+                                Please make the payment as soon as possible to avoid any late fees. Further,
+                                 share a request for NOC Certificate, release of cash collateral, return of Undated Security Cheques,
+                                  removal of lien on FD, if`,
                         };
     
                         // Send the email

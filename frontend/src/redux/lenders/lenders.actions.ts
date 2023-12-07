@@ -25,7 +25,7 @@ export const getAllLendersAction: any = createAsyncThunk("lenders/getAllLendersA
  *  get a contact
  */
 export const getLenderAction: any = createAsyncThunk("lenders/getLenderAction",
-    async (payload: { contactId: string }, {rejectWithValue, dispatch}): Promise<IContactView | any> => {
+    async (payload: { contactId: string }, {rejectWithValue}): Promise<IContactView | any> => {
         try {
             const {contactId} = payload;
             if (AuthUtil.isSetTokenToRequestHeader()) { // PRIVATE
